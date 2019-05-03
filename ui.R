@@ -1,38 +1,41 @@
-# load required libraries
 library(shiny)
+library(ggplot2)
+library(stringr)
 library(maps)
 library(mapdata)
-library(ggplot2)
 
-# load Department mapping data
+# Load state mapping data
 states <- map_data("state")
 
 # Capitalize 1st letter
-states$region <- paste(toupper(substr(states$region, 1, 1)), substr(states$region, 2, nchar(states$region)), sep="")
+states$region <- str_to_title(states$region)
 
-# make the first Department choice be NA
+# initial selection - use a prompt
 state_choices <- c("<Select a state>")
 
-# append the Department choices
+# distinct vector of states
 state_choices <- c(state_choices, unique(states$region))
 
 # Define UI for application
 shinyUI(fluidPage(
     
     # Application title
-    titlePanel("50 States of the USA"),
+    titlePanel("Crime Rate in the USA"),
     
-    # Sidebar with drop down selector to choose the Department
-    # Also includes instructions to use the application
+    # Sidebar with drop down list to select a state
     sidebarLayout(
         sidebarPanel(
             "Select a State of the USA:",
             selectInput("sel_state", "",state_choices, selected = "<Select a state>", multiple=FALSE),
             h4("Detailed Instructions"),
-            "Choose the state from the dropdown list to highlight on the map on your right. ",
+            "Choose the state from the dropdown list to highlight on the map on your right and to see violent crime rates by US State below.",
             hr(),
             "You selected:",
-            h4(textOutput("selection"))
+            h4(textOutput("selection")),
+            h5(textOutput("murders")),
+            h5(textOutput("assault")),
+            h5(textOutput("rape")),
+            h5(textOutput("urbanPop"))
         ),
         
         # Show the map plot
@@ -42,4 +45,3 @@ shinyUI(fluidPage(
         )
     )
 ))
-
