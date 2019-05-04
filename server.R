@@ -48,6 +48,8 @@ shinyServer(function(input, output) {
         # draw the US map with the selected state highlighted in blue
         ggplot(data = states) + 
             geom_polygon(aes(x = Longitude, y = Latitude, group = group), fill = "white", color = "blue") + 
+            coord_fixed(1.3) +
+            guides(fill = FALSE) +
             geom_polygon(data=sel_state(), aes(x = Longitude, y = Latitude, group = group), fill = "blue")
         
     })
