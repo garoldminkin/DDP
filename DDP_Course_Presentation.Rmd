@@ -1,0 +1,70 @@
+---
+title: "Developing Data Product - Course Project"
+author: "Garold Minkin"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: ioslides_presentation
+#runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Technical Summary
+
+- This application can be used to study some violent crime statistics by individual US States
+- The application is a Shiny app created in R Studio and piblished to the ShinyApps.io hosting platform in the Cloud
+- Server side functionality is implemented in the server.R file
+- User interface functionality is implemented in the ui.R file
+- US states map with individual states coordinates are loaded from *maps* and *mapdata* packages
+- Visual details are presented using *ggplot2* package
+- Crime rates per US State are provided by the *USArrests* dataset which is part of the core R package *datasets*
+- *stringr* package is used for some string manipulation
+
+
+## Embedded Code Example
+
+```{r, eval = FALSE, message = FALSE}
+library(ggplot2)
+library(stringr)
+library(datasets)
+library(maps)
+library(mapdata)
+ 
+states <- map_data("state")
+
+# Capitalize 1st letter
+states$region <- str_to_title(states$region)
+state_choices <- unique(states$region)
+
+ggplot(data = states) + 
+     geom_polygon(aes(x = long, y = lat, group = group), fill = "white", color = "blue")
+```
+
+## Code Execution
+
+```{r, echo = FALSE, message = FALSE}
+library(ggplot2)
+library(stringr)
+library(datasets)
+library(maps)
+library(mapdata)
+ 
+states <- map_data("state")
+
+# Capitalize 1st letter
+states$region <- str_to_title(states$region)
+state_choices <- unique(states$region)
+
+ggplot(data = states) + 
+     geom_polygon(aes(x = long, y = lat, group = group), 
+                  fill = "white", color = "blue")
+```
+
+## Links to the Application and Source Code
+
+- Application can be accessed at the URL: 
+  https://garoldminkin.shinyapps.io/mapUSA/  
+- Github Repository URL:  
+  https://github.com/garoldminkin/DDP
+
